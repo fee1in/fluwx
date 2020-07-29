@@ -34,7 +34,7 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
+        System.out.println("FluwxWXEntryActivity:onCreate ");
         try {
             WXAPiHandler.wxApi?.handleIntent(intent, this)
         } catch (e: Exception) {
@@ -48,7 +48,7 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
         super.onNewIntent(intent)
 
         setIntent(intent)
-
+        System.out.println("FluwxWXEntryActivity:onNewIntent ");
         try {
             WXAPiHandler.wxApi?.handleIntent(intent, this)
         } catch (e: Exception) {
@@ -61,6 +61,7 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
     override fun onReq(baseReq: BaseReq) {
         // FIXME: 可能是官方的Bug，从微信拉起APP的Intent类型不对，无法跳转回Flutter Activity
         // 稳定复现场景：微信版本为7.0.5，小程序SDK为2.7.7
+        System.out.println("FluwxWXEntryActivity:onReq ");
         val activity = FluwxRequestHandler.getRegistrar()?.activity()
         if (baseReq.type == 4 && activity is Activity) {
             // com.tencent.mm.opensdk.constants.ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX = 4
@@ -71,6 +72,7 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
 
     // 第三方应用发送到微信的请求处理后的响应结果，会回调到该方法
     override fun onResp(resp: BaseResp) {
+        System.out.println("FluwxWXEntryActivity:onResp ");
         FluwxResponseHandler.handleResponse(resp)
         finish()
     }
