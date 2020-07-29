@@ -1,21 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
-
-import 'launch_mini_program_page.dart';
-import 'subscribe_message_page.dart';
+import 'package:fluwx/fluwx.dart';
 
 import 'auth_by_qr_code_page.dart';
+import 'launch_mini_program_page.dart';
 import 'pay_page.dart';
 import 'send_auth.dart';
 import 'share_image_page.dart';
 import 'share_mini_program.dart';
 import 'share_music.dart';
-import 'share_text_image.dart';
+import 'share_text.dart';
 import 'share_video_page.dart';
 import 'share_web_page.dart';
 import 'sign_auto_deduct_page.dart';
+import 'subscribe_message_page.dart';
 
 void main() => runApp(new MyApp());
 
@@ -32,16 +31,16 @@ class _MyAppState extends State<MyApp> {
   }
 
   _initFluwx() async {
-    await fluwx.register(
+    await registerWxApi(
         appId: "wxd930ea5d5a258f4f",
         doOnAndroid: true,
         doOnIOS: true,
-        enableMTA: false);
-    var result = await fluwx.isWeChatInstalled();
+        universalLink: "https://your.univerallink.com/link/");
+    var result = await isWeChatInstalled;
     print("is installed $result");
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
+// Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {}
 
   @override
@@ -176,7 +175,7 @@ class ShareSelectorPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: new OutlineButton(
                 onPressed: () {
-                  fluwx.openWeChatApp();
+                  openWeChatApp();
                 },
                 child: const Text("Open WeChat App")),
           ),

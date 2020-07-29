@@ -4,24 +4,20 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application>
         <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/DisablePreviewTheme" />
-        <activity
-            android:name=".wxapi.WXPayEntryActivity"
-            android:launchMode="singleTop"
+            android:name=".wxapi.FluwxWXEntryActivity"
+            android:launchMode="singleTask"
             android:theme="@style/DisablePreviewTheme" />
 
         <activity-alias
             android:name="${applicationId}.wxapi.WXEntryActivity"
             android:exported="true"
             android:launchMode="singleTop"
-            android:targetActivity="com.jarvan.fluwx.wxapi.WXEntryActivity"
+            android:targetActivity="com.jarvan.fluwx.wxapi.FluwxWXEntryActivity"
             android:theme="@style/DisablePreviewTheme">
-
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -32,8 +28,8 @@
         <activity-alias
             android:name="${applicationId}.wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:launchMode="singleTop"
-            android:targetActivity="com.jarvan.fluwx.wxapi.WXPayEntryActivity"
+            android:launchMode="singleInstance"
+            android:targetActivity="com.jarvan.fluwx.wxapi.FluwxWXEntryActivity"
             android:theme="@style/DisablePreviewTheme">
 
 
@@ -43,5 +39,15 @@
                 <data android:scheme="sdksample" />
             </intent-filter>
         </activity-alias>
+
+        <provider
+            android:name="com.jarvan.fluwx.FluwxFileProvider"
+            android:authorities="${applicationId}.fluwxprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/fluwx_file_provider_paths" />
+        </provider>
     </application>
 </manifest>

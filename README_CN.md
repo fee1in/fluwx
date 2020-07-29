@@ -1,98 +1,91 @@
-## FLuwx  ![pub package](https://img.shields.io/pub/v/fluwx.svg)
+# Fluwx
+![pub package](https://img.shields.io/pub/v/fluwx.svg)
+[![Build status](https://img.shields.io/cirrus/github/OpenFlutter/fluwx/master)](https://cirrus-ci.com/github/OpenFlutter/fluwx)
+======
 
-![logo](./arts/fluwx_logo.png)
+![logo](https://github.com/JarvanMo/ImagesStore/blob/master/fluwx/fluwx_logo.png)
 
-适用于Flutter的微信SDK，方便快捷。
-QQ群：892398530。
+## 什么是Fluwx
+`Fluwx` 是一个[微信SDK](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Resource_Center_Homepage.html)插件，它允许开发者调用
+[微信原生SDK ](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Resource_Center_Homepage.html).
 
+> 加入我们的QQ群: 892398530。
 
-## 使用需知
- 使用`Fluwx`之前，强烈建议先阅读[微信SDK官方文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1)，
- 这有助于你使用`Fluwx`。
- 这很重要，因为有一些概念以及配置不会体现在本文档中。
+## 能力
 
-### 目前功能
-* 文本分享。
-* 网站分享。
-* 图片分享。
-* 音乐分享。
-* 视频分享。
-* 小程序分享。
-* 发送Auth认证（登录）。
-* 支付。
-* 打开小程序。
-* 一次性订阅消息。
-* 二维码登录。
-* 签约免密支付。
-* 打开微信。
+- 分享图片，文本，音乐，视频等。支持分享到会话，朋友圈以及收藏.
+- 微信支付.
+- 在微信登录时，获取Auth Code.
+- 拉起小程序.
+- 订阅消息.
+- 打开微信.
 
-## 示例
+## 准备
 
-[点此查看示例](./example)
+`Fluwx` 可以做很多工作但不是所有. 在集成之前，最好读一下[官方文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1).  
+ 然后你才知道怎么生成签名，怎么使用universal link以及怎么添加URL schema等.
 
-[收费视频教程点这里](https://study.163.com/course/introduction.htm?share=2&shareId=480000001896427&courseId=1209174838&_trace_c_p_k2_=e72467dc0df540579287a8ea996344a4)
+> [收费视频教程点这里](https://study.163.com/course/introduction.htm?share=2&shareId=480000001896427&courseId=1209174838&_trace_c_p_k2_=e72467dc0df540579287a8ea996344a4)
+>
+## 安装
 
-[升级到1.0.0或者更高](./doc/QUESTIONS_CN.md)
+在`pubspec.yaml` 文件中添加`fluwx`依赖:
 
-## 引入
-
-在你的 `pubspec.yaml` 文件中添加如下依赖:
+`Fluwx`，带支付:
 
 ```yaml
 dependencies:
   fluwx: ^${latestVersion}
 ```
+![pub package](https://img.shields.io/pub/v/fluwx.svg)
 
-> 最新版本为 ![pub package](https://img.shields.io/pub/v/fluwx.svg)
-
-如果想用github上最新版本:
+`Fluwx`，不带支付:
 
 ```yaml
 dependencies:
-  fluwx:
-    git:
-      url: https://github.com/OpenFlutter/fluwx
+  fluwx_no_pay: ^${latestVersion}
 ```
 
-## 初始化
-使用`Fluwx`前，需要进行初始化操作：
- ```dart
-     import 'package:fluwx/fluwx.dart' as fluwx;
-     fluwx.register(appId:"wxd930ea5d5a258f4f");
- ```
-如果你想通过fluwx注册微信，请务必提供 `universalLink` ，否则无视这句话.
+![pub package](https://img.shields.io/pub/v/fluwx_no_pay.svg)
 
+> NOTE: 别忘记替换 ^${latestVersion} ！！！！
 
-> 注意：尽管可以通过Fluwx完成微信注册，但一些操作依然需要在对应平台进行设置，如配置iOS的URLSchema,universal link等。
+## 注册 WxAPI
 
-### 传送门
-* [分享](./doc/SHARE_CN.md)。
-* [Auth](./doc/SEND_AUTH_CN.md)。
-* [支付](./doc/WXPay_CN.md)。
-* [打开小程序](./doc/LAUNCH_MINI_PROGRAM_CN.md)。
-* [一次性订阅消息](./doc/SUBSCRIBE_MESSAGE_CN.md)。。
-* [二维码登录](./doc/AUTH_BY_QR_CODE_CN.md)。
-* [签约免密支付](./doc/AUTO_DEDUCT_CN.md)。
-* [接收微信响应](./doc/RESPONSE_CN.md)。
+通过 `fluwx` 注册WxApi.
 
-### Q&A
-请先看文档，再看Q&A，再查看issue，自我排查错误，方便你我他。依然无法解决的问题可以加群提问。
-* [常见问题Q&A](./doc/QUESTIONS_CN.md)
+```dart
+registerWxApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.univerallink.com/link/");
+```
 
+参数 `universalLink` 只在iOS上有用. 查看[文档](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html) 以便了解如何生成通用链接.  
+ 你也可以学习到怎么在iOS工程中添加URL schema，怎么添加`LSApplicationQueriesSchemes`。这很重要。
 
-### 更多功能敬请请期待
+对于Android, 可以查看[本文](https://developers.weixin.qq.com/doc/oplatform/Downloads/Android_Resource.html)以便了解怎么获取app签名.
+然后你需要知道release和debug时，app签名有什么区别。如果签名不对，你会得一个错误 `errCode = -1`.
 
-### 捐助
-请作者喝杯咖啡。
+## 能力文档
 
-<img src="./arts/wx.jpeg" height="300">  <img src="./arts/ali.jpeg" height="300">
+- [基础知识](./doc/BASIC_KNOWLEDGE_CN.md)
+- [分享](./doc/SHARE_CN.md)
+- [支付](./doc/PAYMENT_CN.md)
+- [登录](./doc/AUTH_CN.md)
 
-### 欢迎关注公众号
-![subscribe](./arts/wx_subscription.png)
+对于更多功能，可以查看源码。
 
+## QA
+
+[这些问题可能对你有帮助](./doc/QA_CN.md)
+
+## 捐助
+开源不易，请作者喝杯咖啡。
+
+<img src="https://github.com/JarvanMo/ImagesStore/blob/master/common/wx.jpeg" height="300">  <img src="https://github.com/JarvanMo/ImagesStore/blob/master/common/ali.jpeg" height="300">
+
+## 关注公众号
+![subscribe](https://github.com/JarvanMo/ImagesStore/blob/master/fluwx/wx_subscription.png)
 
 ## LICENSE
-
 
     Copyright 2018 OpenFlutter Project
 
@@ -110,3 +103,8 @@ dependencies:
     WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
     License for the specific language governing permissions and limitations under
     the License.
+
+
+
+
+
