@@ -17,14 +17,12 @@ Steps to reproduce the behavior:
 3. Scroll down to '....'
 4. See error
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**Which version of Fluwx do you use?**
+Tell us the version of your current Fluwx.
 
-**Flutter Version:**
-Run `flutter doctor` in terminal or powershell , and copy the outputs.
+**Which device do you run on**
+Tell us the device, like BLA-00 and the OS is Android 10.
 
-**Testing Platform:**
-Android or iOS?
+**Which Flutter do you use?**
 
-**Additional context**
-Add any other context about the problem here.
+Run `flutter doctor` and paste the output here.

@@ -1,9 +1,107 @@
+## 2.2.0
+* Merged #249
+
+## 2.1.0
+* Specifying supported platforms
+* Fix: Android分享小程序时，缩略图压缩过重的问题
+* 更改分享文件的实现形式
+
+## 2.0.9
+* Android SDK 升级到6.6.4
+* iOS SDK升级到1.8.7.1
+* Kotlin->1.3.72
+
+## 2.0.8+3
+* Merge #218
+
+## 2.0.8+2
+* Merge #218
+
+## 2.0.8+1
+* 修复ios编译错误
+
+## 2.0.8
+* Fix #212
+
+## 2.0.7
+* Fix #207
+
+## 2.0.6+2
+* Fix: Android分享大图时存储权限问题
+
+## 2.0.6
+* Fix: Android请求权限崩溃的问题
+
+## 2.0.5+1
+* 升级
+
+## 2.0.5
+* Fix:Android分享file文件时，会crash
+
+## 2.0.4
+* Fix:hdImage为空时，ios会crash
+
+## 2.0.3
+* 添加混淆文件
+
+## 2.0.2
+* Fix #199
+
+## 2.0.1
+* 修复Android没有回调的问题
+
+## 2.0.0+1
+* 按照pub建议改进
+
+## 2.0.0
+* 代码重构，现在代码结构更清晰
+* 所有图片由WeChatImage构建
+* 现在iOS对分享微信小程序的高清图也会压缩
+* 微信回调监听形式变更
+* Android增加新的Action以防微信打开小程序出错不会返回原app的问题
+* iOS改用Pod引用微信SDK
+* iOS隐藏一些header
+* kotlin 1.3.70
+
+## 1.2.1+2
+* iOS的StringUtil重命名了
+
+## 1.2.1+1
+* Fix #178
+
+## 1.2.1
+* Fix #175
+
+## 1.2.0
+* 分享文件
+* compileSdkVersion 29
+
+## 1.1.4
+
+* 注册微信时会对universal link进行简单校验
+
+## 1.1.3
+
+* Fix #146
+
+## 1.1.2
+
+* Fix #122
+
+## 1.1.1+1
+
+* Android CompileSDKVersion 提升到28
+
+### 1.1.1
+
+* registerWxApi
+
 ## 1.1.0
 
 * iOS SDK升级至1.8.6.1，本版本开始支持universal link。
 * Android SDK更换至without-mat:5.4.3
 * Android配置升级
-* 移队MTA选项
+* 移除MTA选项
 
 
 ## 1.0.6
