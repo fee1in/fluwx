@@ -75,7 +75,7 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
     }
 
     private fun startSpecifiedActivity() {
-        Intent("$packageName.FlutterActivity").run {
+        Intent("$packageName.MainActivity").run {
             startActivity(this)
         }
         finish()
