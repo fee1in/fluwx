@@ -61,7 +61,7 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
         // FIXME: 可能是官方的Bug，从微信拉起APP的Intent类型不对，无法跳转回Flutter Activity
         // 稳定复现场景：微信版本为7.0.5，小程序SDK为2.7.7
 
-        System.out.println("FluwxWXEntryActivity:onReq :type"+baseReq.getType(),+",transaction:"+baseReq.transaction,+",openId:"+baseReq.openId );
+        System.out.println("FluwxWXEntryActivity:onReq :type ${baseReq.getType()},transaction:${baseReq.transaction}openId:${baseReq.openId}" );
 
             // com.tencent.mm.opensdk.constants.ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX = 4
             startSpecifiedActivity()
