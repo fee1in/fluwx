@@ -32,13 +32,16 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        System.out.println("FluwxWXEntryActivity:onCreate ");
         try {
+            if(WXAPiHandler.wxApi== null){
+                startSpecifiedActivity()
+                return
+            }
             WXAPiHandler.wxApi?.handleIntent(intent, this)
         } catch (e: Exception) {
             e.printStackTrace()
             startSpecifiedActivity()
-            finish()
+//            finish()
         }
     }
 
@@ -64,7 +67,8 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
         System.out.println("FluwxWXEntryActivity:onReq :type ${baseReq.getType()},transaction:${baseReq.transaction}openId:${baseReq.openId}" );
 
             // com.tencent.mm.opensdk.constants.ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX = 4
-            startSpecifiedActivity()
+//            startSpecifiedActivity()
+        finish()
     }
 
     // 第三方应用发送到微信的请求处理后的响应结果，会回调到该方法
@@ -78,6 +82,7 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
         Intent("$packageName.MainActivity").run {
             startActivity(this)
         }
+
         finish()
     }
 }
