@@ -24,9 +24,9 @@ object FluwxRequestHandler {
     private fun handleShowMessage(req: ShowMessageFromWX.Req) {
         val mediaMsg = req.message
         val extInfo = mediaMsg.messageExt
-        val result = {
+        val result = mapOf(
             "extInfo" to extInfo
-        }
+        )
 
         channel?.invokeMethod("onShowMessageReq", result)
     }
