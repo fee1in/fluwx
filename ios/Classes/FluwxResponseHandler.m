@@ -199,18 +199,24 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
             GetMessageFromWXReq *getMessageReq = (GetMessageFromWXReq *) req;
             [_delegate managerDidRecvGetMessageReq:getMessageReq];
         }
+        NSLog(@"onReq GetMessageFromWXReq");
+
     } else if ([req isKindOfClass:[ShowMessageFromWXReq class]]) {
         if (_delegate
                 && [_delegate respondsToSelector:@selector(managerDidRecvShowMessageReq:)]) {
             ShowMessageFromWXReq *showMessageReq = (ShowMessageFromWXReq *) req;
             [_delegate managerDidRecvShowMessageReq:showMessageReq];
         }
+        NSLog(@"onReq ShowMessageFromWXReq");
+        
+
     } else if ([req isKindOfClass:[LaunchFromWXReq class]]) {
         if (_delegate
                 && [_delegate respondsToSelector:@selector(managerDidRecvLaunchFromWXReq:)]) {
             LaunchFromWXReq *launchReq = (LaunchFromWXReq *) req;
             [_delegate managerDidRecvLaunchFromWXReq:launchReq];
         }
+         NSLog(@"onReq LaunchFromWXReq");
     }
 }
 @end
