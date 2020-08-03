@@ -18,14 +18,18 @@ package com.jarvan.fluwx.wxapi
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import com.jarvan.fluwx.handlers.FluwxRequestHandler
 import com.jarvan.fluwx.handlers.FluwxResponseHandler
+import com.jarvan.fluwx.handlers.RegisterListener
 import com.jarvan.fluwx.handlers.WXAPiHandler
+import com.tencent.mm.opensdk.constants.ConstantsAPI
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
+import com.tencent.mm.opensdk.modelmsg.ShowMessageFromWX
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
 
 
-open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
+open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler, RegisterListener {
 
     // IWXAPI 是第三方app和微信通信的openapi接口
 
@@ -35,6 +39,7 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
         try {
             if (WXAPiHandler.wxApi == null) {
                 startSpecifiedActivity()
+                WXAPiHandler.setRegisterListener(this)
                 return
             }
             WXAPiHandler.wxApi?.handleIntent(intent, this)
@@ -49,41 +54,40 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
         super.onNewIntent(intent)
 
         setIntent(intent)
-        System.out.println("FluwxWXEntryActivity:onNewIntent ");
         try {
             WXAPiHandler.wxApi?.handleIntent(intent, this)
         } catch (e: Exception) {
             e.printStackTrace()
             startSpecifiedActivity()
-            finish()
         }
     }
 
 
-    override fun onReq(baseReq: BaseReq) {
-        // FIXME: 可能是官方的Bug，从微信拉起APP的Intent类型不对，无法跳转回Flutter Activity
-        // 稳定复现场景：微信版本为7.0.5，小程序SDK为2.7.7
+    override fun onReq(req: BaseReq) {
+        if (req.type == ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX) {
+            FluwxRequestHandler.handleRequest(req);
+        }
 
-        System.out.println("FluwxWXEntryActivity:onReq :type ${baseReq.getType()},transaction:${baseReq.transaction}openId:${baseReq.openId}");
-
-        // com.tencent.mm.opensdk.constants.ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX = 4
-//            startSpecifiedActivity()
         finish()
     }
 
     // 第三方应用发送到微信的请求处理后的响应结果，会回调到该方法
     override fun onResp(resp: BaseResp) {
-        System.out.println("FluwxWXEntryActivity:onResp ");
         FluwxResponseHandler.handleResponse(resp)
         finish()
     }
 
     private fun startSpecifiedActivity() {
-        Intent(context, Class.forName("$packageName.MainActivity")).run {
-            this.data = getIntent().getData();
+        Intent(this, Class.forName("$packageName.MainActivity")).run {
             startActivity(this)
         }
 
+
         finish()
+    }
+
+    override fun onRegister() {
+        WXAPiHandler.wxApi?.handleIntent(intent, this)
+        WXAPiHandler.setRegisterListener(null)
     }
 }

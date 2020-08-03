@@ -23,6 +23,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:fluwx/fluwx.dart';
+import 'package:fluwx/src/response/wechat_request.dart';
 import 'package:fluwx/src/wechat_enums.dart';
 
 const Map<Type, String> _shareModelMethodMapper = {
@@ -40,6 +41,14 @@ MethodChannel _channel = MethodChannel('com.jarvanmo/fluwx')
 
 StreamController<BaseWeChatResponse> _weChatResponseEventHandlerController =
     new StreamController.broadcast();
+
+StreamController<BaseWeChatRequest> _weChatRequestEventHandlerController =
+new StreamController.broadcast();
+
+
+Stream<BaseWeChatRequest> get weChatRequestEventHandler =>
+    _weChatRequestEventHandlerController.stream;
+
 
 /// Response answers from WeChat after sharing, payment etc.
 Stream<BaseWeChatResponse> get weChatResponseEventHandler =>
@@ -235,8 +244,18 @@ Future<bool> stopWeChatAuthByQRCode() async {
 }
 
 Future _methodHandler(MethodCall methodCall) {
-  var response =
-      BaseWeChatResponse.create(methodCall.method, methodCall.arguments);
-  _weChatResponseEventHandlerController.add(response);
+  switch (methodCall.method) {
+    case "onShowMessageReq":
+      final request =
+          BaseWeChatRequest.create(methodCall.method, methodCall.arguments);
+      _weChatRequestEventHandlerController.add(request);
+      break;
+    default:
+      var response =
+          BaseWeChatResponse.create(methodCall.method, methodCall.arguments);
+      _weChatResponseEventHandlerController.add(response);
+      break;
+  }
+
   return Future.value();
 }

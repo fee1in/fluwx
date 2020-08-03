@@ -30,6 +30,14 @@ object WXAPiHandler {
 
     private var context: Context? = null
 
+
+    private var registerListener: RegisterListener? = null
+
+    fun setRegisterListener(listener: RegisterListener?) {
+        this.registerListener = listener;
+    }
+
+
     fun setContext(context: Context?) {
         WXAPiHandler.context = context
     }
@@ -55,6 +63,8 @@ object WXAPiHandler {
         val registered = api.registerApp(appId)
         wxApi = api
         result.success(registered)
+        registerListener?.onRegister();
+
     }
 
     fun checkWeChatInstallation(result: MethodChannel.Result) {
@@ -66,4 +76,9 @@ object WXAPiHandler {
         }
 
     }
+}
+
+interface RegisterListener {
+
+    fun onRegister()
 }
