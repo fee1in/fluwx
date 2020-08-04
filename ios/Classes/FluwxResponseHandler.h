@@ -9,6 +9,7 @@
 #import <Flutter/Flutter.h>
 #import <WechatOpenSDK/WXApi.h>
 #import <WechatOpenSDK/WXApiObject.h>
+#import "RegisterDelegate.h"
 
 @protocol WXApiManagerDelegate <NSObject>
 

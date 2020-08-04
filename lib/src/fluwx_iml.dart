@@ -246,6 +246,7 @@ Future<bool> stopWeChatAuthByQRCode() async {
 Future _methodHandler(MethodCall methodCall) {
   switch (methodCall.method) {
     case "onShowMessageReq":
+    case "onLaunchFromWXReq":
       final request =
           BaseWeChatRequest.create(methodCall.method, methodCall.arguments);
       _weChatRequestEventHandlerController.add(request);

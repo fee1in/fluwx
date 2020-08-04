@@ -199,7 +199,7 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
             GetMessageFromWXReq *getMessageReq = (GetMessageFromWXReq *) req;
             [_delegate managerDidRecvGetMessageReq:getMessageReq];
         }
-        NSLog(@"onReq GetMessageFromWXReq");
+       
 
     } else if ([req isKindOfClass:[ShowMessageFromWXReq class]]) {
         if (_delegate
@@ -207,7 +207,11 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
             ShowMessageFromWXReq *showMessageReq = (ShowMessageFromWXReq *) req;
             [_delegate managerDidRecvShowMessageReq:showMessageReq];
         }
-        NSLog(@"onReq ShowMessageFromWXReq");
+       
+        ShowMessageFromWXReq *showMessageReq = (ShowMessageFromWXReq *) req;
+        NSDictionary *result = @{
+            @"extInfo": showMessageReq.message.messageExt };
+          [fluwxMethodChannel invokeMethod:@"onShowMessageReq" arguments:result];
         
 
     } else if ([req isKindOfClass:[LaunchFromWXReq class]]) {
@@ -216,7 +220,12 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
             LaunchFromWXReq *launchReq = (LaunchFromWXReq *) req;
             [_delegate managerDidRecvLaunchFromWXReq:launchReq];
         }
-         NSLog(@"onReq LaunchFromWXReq");
+        NSLog(@"LaunchFromWXReq");
+        LaunchFromWXReq *launchReq = (LaunchFromWXReq *) req;
+        NSString *extInfo = launchReq.message.messageExt;
+        NSDictionary *result = @{
+                 @"extInfo": extInfo };
+        [fluwxMethodChannel invokeMethod:@"onLaunchFromWXReq" arguments:result];
     }
 }
 @end

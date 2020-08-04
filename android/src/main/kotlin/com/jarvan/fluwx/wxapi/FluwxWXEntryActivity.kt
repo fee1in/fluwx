@@ -38,8 +38,6 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler, RegisterListen
 
         try {
             if (WXAPiHandler.wxApi == null) {
-                println(">>>>>>>>>>>>>>>>>>>");
-                println("onCreate");
                 startSpecifiedActivity()
                 WXAPiHandler.setRegisterListener(this)
                 return
@@ -66,12 +64,9 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler, RegisterListen
 
 
     override fun onReq(req: BaseReq) {
-        println(">>>>>>>>>>>>>>>>>>>>>>");
-        println("req.type:${req.type}");
         if (req.type == ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX) {
             FluwxRequestHandler.handleRequest(req);
         }
-        println("req.type:${req.type}");
         finish()
     }
 
@@ -82,11 +77,9 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler, RegisterListen
     }
 
     private fun startSpecifiedActivity() {
-        println("startSpecifiedActivity>>>>>>>>>>>>>>>>>>>>>>>")
         Intent(this, Class.forName("$packageName.MainActivity")).run {
             startActivity(this)
         }
-        println(">>>>>>>>>>>>>>>>>>>>>>>")
         finish()
     }
 

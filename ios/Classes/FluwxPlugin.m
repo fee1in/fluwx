@@ -9,6 +9,8 @@ FluwxAuthHandler *_fluwxAuthHandler;
 FluwxShareHandler *_fluwxShareHandler;
 
 BOOL handleOpenURLByFluwx = YES;
+BOOL isWeChatRegistered = NO;
+RegisterDelegate * registerDelegate;
 
 + (void)registerWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar {
     FlutterMethodChannel *channel = [FlutterMethodChannel
@@ -80,8 +82,11 @@ BOOL handleOpenURLByFluwx = YES;
         return;
     }
 
-    BOOL isWeChatRegistered = [WXApi registerApp:appId universalLink:universalLink];
-
+    isWeChatRegistered = [WXApi registerApp:appId universalLink:universalLink];
+    if(isWeChatRegistered && registerDelegate){
+        [registerDelegate registerCallback];
+        registerDelegate = nil;
+    }
     result(@(isWeChatRegistered));
 }
 
@@ -182,6 +187,9 @@ BOOL handleOpenURLByFluwx = YES;
 
 // NOTE: 9.0以后使用新API接口
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *, id> *)options {
+    if(!isWeChatRegistered){
+        registerDelegate = [[RegisterDelegate alloc]initWithUrl:url];
+    }
     return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
 }
 
@@ -206,3 +214,30 @@ continueUserActivity:(nonnull NSUserActivity *)userActivity
 }
 
 @end
+
+//
+//@interface WXRegisterCallback : NSObject
+//@property(nonatomic) NSURL * url;
+//- (void) registerCallback;
+//@end
+//
+//@implementation WXRegisterCallback
+//
+//
+//- (instancetype)initWithUrl:(NSURL *)url
+//{
+//    self = [super init];
+//    if (self) {
+//        self.url = url;
+//    }
+//    return self;
+//}
+//
+//
+//
+//
+//- (void) registerCallback{
+//    [WXApi handleOpenURL:self.url delegate:[FluwxResponseHandler defaultManager]];
+//}
+//
+//@end
