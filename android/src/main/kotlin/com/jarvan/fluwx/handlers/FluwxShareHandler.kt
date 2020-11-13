@@ -134,7 +134,7 @@ internal interface FluwxShareHandler : CoroutineScope {
                 sourceByteArray.isEmpty() -> {
                     WXImageObject()
                 }
-                sourceByteArray.size > 500 * 1024 -> {
+                else -> {
                     WXImageObject().apply {
                         if (supportFileProvider && targetHigherThanN) {
                             setImagePath(getFileContentUri(sourceByteArray.toCacheFile(context, sourceImage.suffix)))
@@ -146,9 +146,6 @@ internal interface FluwxShareHandler : CoroutineScope {
                             }
                         }
                     }
-                }
-                else -> {
-                    WXImageObject(sourceByteArray)
                 }
             }
             val msg = WXMediaMessage()
@@ -270,10 +267,15 @@ internal interface FluwxShareHandler : CoroutineScope {
 
     private suspend fun readThumbnailByteArray(call: MethodCall, length: Int = SHARE_IMAGE_THUMB_LENGTH): ByteArray? {
         val thumbnailMap: Map<String, Any>? = call.argument(keyThumbnail)
+        val compress:Boolean = call.argument("compressThumbnail")?:true
         return thumbnailMap?.run {
             val thumbnailImage = WeChatFile.createWeChatFile(thumbnailMap, assetFileDescriptor)
             val thumbnailImageIO = ImagesIOIml(thumbnailImage)
-            compressThumbnail(thumbnailImageIO, length)
+            if(compress){
+                compressThumbnail(thumbnailImageIO, length)
+            }else{
+                thumbnailImageIO.readByteArray()
+            }
         }
     }
 

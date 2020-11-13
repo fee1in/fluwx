@@ -64,7 +64,9 @@ RegisterDelegate * registerDelegate;
 }
 
 - (void)registerApp:(FlutterMethodCall *)call result:(FlutterResult)result {
-    if (!call.arguments[@"iOS"]) {
+    NSNumber* doOnIOS =call.arguments[@"iOS"];
+
+    if (![doOnIOS boolValue]) {
         result(@NO);
         return;
     }
@@ -193,12 +195,9 @@ RegisterDelegate * registerDelegate;
     return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
 }
 
-- (BOOL) application:(UIApplication *)application
-continueUserActivity:(nonnull NSUserActivity *)userActivity
-  restorationHandler:(nonnull void (^)(NSArray<id> * _Nullable))restorationHandler {
-    return [WXApi handleOpenUniversalLink:userActivity delegate:[FluwxResponseHandler defaultManager]];
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nonnull))restorationHandler{
+        return [WXApi handleOpenUniversalLink:userActivity delegate:[FluwxResponseHandler defaultManager]];
 }
-
 - (void)scene:(UIScene *)scene continueUserActivity:(NSUserActivity *)userActivity  API_AVAILABLE(ios(13.0)){
     [WXApi handleOpenUniversalLink:userActivity delegate:[FluwxResponseHandler defaultManager]];
 }
